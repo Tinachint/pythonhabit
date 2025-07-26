@@ -67,7 +67,7 @@ class Habit:
         Compute the current streak of consecutive periods.
 
         Returns:
-        --------
+
         int
             Number of back-to-back days/weeks/months completed.
         """
