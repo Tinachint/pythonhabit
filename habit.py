@@ -67,7 +67,6 @@ class Habit:
         Compute the current streak of consecutive periods.
 
         Returns:
-
         int
             Number of back-to-back days/weeks/months completed.
         """
@@ -85,7 +84,6 @@ class Habit:
 
             elif self.periodicity == "weekly":
                 expected = prev - timedelta(weeks=1)
-                # ensure ISO-week matches, accounting for year rollover
                 ey, ew, _ = expected.isocalendar()
                 cy, cw, _ = current.isocalendar()
                 if (cy, cw) != (ey, ew):
@@ -101,6 +99,15 @@ class Habit:
                 break
 
         return streak
+
+    @property
+    def completions(self) -> List[date]:
+        """
+        Return all recorded completion dates in sorted order (oldest to newest).
+        This makes completion data available for external inspection and testing,
+        without allowing external modification.
+        """
+        return sorted(self._dates)
 
     def __str__(self) -> str:
         return (
