@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
@@ -28,7 +31,7 @@ def test_create_habit(daily_habit):
     assert daily_habit.name == "Meditate"
     assert daily_habit.periodicity == "daily"
     assert isinstance(daily_habit.creation_date, datetime)
-    assert len(daily_habit.dates) == 0
+    assert len(daily_habit.completions) == 0
 
 #  Invalid Input
 def test_invalid_periodicity():
@@ -42,7 +45,7 @@ def test_complete_task(daily_habit):
     today = datetime.now().date()
     result = daily_habit.complete_task()
     assert result == today
-    assert today in daily_habit.dates
+    assert today in daily_habit.completions
 
 #  Streak Logic
 def test_daily_streak():
