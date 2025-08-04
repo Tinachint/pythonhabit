@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 from habit import Habit
-from database import DatabaseManager
+from habit.database import DatabaseManager
 
 
 class HabitTracker:

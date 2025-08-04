@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime, timezone,timedelta, date
 from dateutil.relativedelta import relativedelta
 from typing import List, Set, Tuple
 
@@ -25,7 +25,7 @@ class Habit:
 
         self.name: str = name
         self.periodicity: str = periodicity
-        self.creation_date: datetime = datetime.now()
+        self.creation_date: datetime = datetime.now(timezone.utc)
         # store unique dates only (no time component)
         self._dates: Set[date] = set()
 

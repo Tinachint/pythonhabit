@@ -1,10 +1,7 @@
-import sys
-import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
-from datetime import datetime, timedelta, date
+from datetime import datetime, timezone, timedelta, date
 from dateutil.relativedelta import relativedelta
-from habit import Habit  # adjust if using subfolders
+from habit.habit import Habit  
 from unittest.mock import patch
 
 #  Fixtures
@@ -87,13 +84,13 @@ def test_str_representation(daily_habit):
 #  Time Mocking
 def test_complete_task_with_mock_time():
     """Test completion using a fixed mocked datetime."""
-    fixed_time = datetime(2023, 1, 1, 12, 0)
+    fixed_time = datetime(2023, 1, 1, 12, 0, tzinfo= timezone.utc)
     fixed_date = fixed_time.date()
 
-    with patch("habit.datetime") as mock_datetime:
+    with patch("habit.habit.datetime") as mock_datetime:
         mock_datetime.now.return_value = fixed_time
         mock_datetime.side_effect = lambda *args, **kwargs: datetime(*args, **kwargs)  # fix constructor
         habit = Habit("Test", "daily")
         logged = habit.complete_task()
         assert logged == fixed_date
-        assert fixed_date in habit.dates
+        assert fixed_date in habit.completions

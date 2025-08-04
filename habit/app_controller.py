@@ -1,7 +1,7 @@
 # app_controller.py
 
 from typing import Optional
-from habit_tracker import HabitTracker
+from habit.habit_tracker import HabitTracker
 from habit import Habit
 
 
