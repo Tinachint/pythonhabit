@@ -1,7 +1,7 @@
 # tracker.py
 
 from typing import List, Optional
-from habit import Habit
+from habit.habit import Habit
 from habit.database import DatabaseManager
 
 

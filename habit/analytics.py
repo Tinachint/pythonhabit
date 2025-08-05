@@ -2,7 +2,7 @@ from typing import List, Optional, Tuple
 from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 
-from habit import Habit
+from habit.habit import Habit
 
 def filter_habits_by_periodicity(habits: List[Habit], periodicity: str) -> List[Habit]:
     """Return habits matching the given periodicity (case-insensitive)."""
