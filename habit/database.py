@@ -1,5 +1,3 @@
-# database.py
-
 import sqlite3
 from typing import List, Optional
 from habit.habit import Habit
@@ -14,9 +12,13 @@ class DatabaseManager:
 
     def __init__(self, db_name: str = "habits.db"):
         self.db_name = db_name
+        self._conn = None  # Track the connection
 
     def _connect(self):
-        return sqlite3.connect(self.db_name)
+        """Get a connection, reusing if possible"""
+        if self._conn is None:
+            self._conn = sqlite3.connect(self.db_name)
+        return self._conn
 
     def initialize_schema(self) -> None:
         """
@@ -37,11 +39,6 @@ class DatabaseManager:
     def save_habit(self, habit: Habit) -> None:
         """
         Insert or update a habit in the database.
-
-        Parameters:
-        -----------
-        habit : Habit
-            The habit to save.
         """
         with self._connect() as conn:
             cursor = conn.cursor()
@@ -63,11 +60,6 @@ class DatabaseManager:
     def load_all_habits(self) -> List[Habit]:
         """
         Load all habits from the database.
-
-        Returns:
-        --------
-        List[Habit]
-            A list of Habit objects.
         """
         with self._connect() as conn:
             cursor = conn.cursor()
@@ -85,16 +77,6 @@ class DatabaseManager:
     def get_habit_by_name(self, name: str) -> Optional[Habit]:
         """
         Retrieve a single habit by name from the database.
-
-        Parameters:
-        -----------
-        name : str
-            The name of the habit to retrieve.
-
-        Returns:
-        --------
-        Optional[Habit]
-            The habit object if found, or None otherwise.
         """
         with self._connect() as conn:
             cursor = conn.cursor()
@@ -115,14 +97,16 @@ class DatabaseManager:
     def delete_habit(self, name: str) -> None:
         """
         Delete a habit by name.
-
-        Parameters:
-        -----------
-        name : str
-            The name of the habit to delete.
         """
         with self._connect() as conn:
             cursor = conn.cursor()
             cursor.execute("DELETE FROM habits WHERE name = ?", (name,))
             conn.commit()
 
+    def close(self):
+        """
+        Close the database connection.
+        """
+        if self._conn is not None:
+            self._conn.close()
+            self._conn = None
