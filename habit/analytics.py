@@ -13,7 +13,7 @@ def longest_streak_for(habit: Habit) -> int:
     if not habit.completions:
         return 0
 
-    sorted_dates = sorted([c.date() for c in habit.completions])
+    sorted_dates = sorted(habit.completions)
     max_streak = streak = 1
     previous = sorted_dates[0]
 
