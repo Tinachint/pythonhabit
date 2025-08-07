@@ -13,11 +13,16 @@ COMMAND_ALIASES = {
     "rm": "delete",
     "done": "complete"
 }
-
+"""Maps shorthand command aliases to their full command equivalents.
+Used to support user-friendly CLI input.
+"""
 SUPPORTED_COMMANDS = {
     "add", "list", "complete", "update", "help", "exit"
 } | set(COMMAND_ALIASES.keys())
-
+"""
+Set of all valid commands, including both full names and aliases.
+Used to validate CLI input before dispatching.
+"""
 def parse_args():
     """Parse and sanitize CLI arguments."""
     parser = argparse.ArgumentParser(description="Track habits via CLI.")
@@ -29,6 +34,7 @@ def parse_args():
     return parser.parse_args()
 
 def main():
+    """Main entry point for the CLI application."""
     args = parse_args()
     controller = AppController()
 
