@@ -1,7 +1,6 @@
 # cli.py
-
 import argparse
-from app_controller import AppController
+from habit.app_controller import AppController
 
 try:
     from importlib.metadata import version
