@@ -7,12 +7,17 @@ from unittest.mock import patch
 #  Fixtures
 @pytest.fixture
 def daily_habit():
-    """Create a daily habit fixture."""
+    """Pytest fixture to create a daily habit fixture.
+    it Returns:
+        Habit: A daily Habit instance.
+    """
     return Habit("Meditate", "daily")
 
 @pytest.fixture
 def habit_with_streak():
-    """Create a weekly habit with a 3-week streak."""
+    """This fixture creates a weekly habit with a 3-week streak
+     it Returns:
+        Habit: A weekly Habit instance with a 3-week streak."""
     habit = Habit("Read", "weekly")
     today = datetime.now().date()
     habit._dates = {
@@ -24,7 +29,14 @@ def habit_with_streak():
 
 #  Habit Creation
 def test_create_habit(daily_habit):
-    """Ensure Habit initializes with correct values."""
+    """Test that a Hsbit initializes with correct attributes.
+    
+    Verifies:
+     -The habit's name is set correctly.
+     -The periodicity is set correctly.
+     -The creation date is a datetime instance.
+    
+    """
     assert daily_habit.name == "Meditate"
     assert daily_habit.periodicity == "daily"
     assert isinstance(daily_habit.creation_date, datetime)
@@ -32,7 +44,10 @@ def test_create_habit(daily_habit):
 
 #  Invalid Input
 def test_invalid_periodicity():
-    """Should raise error for unsupported periodicity."""
+    """This tests that iniatilizing a Habit with an invalid periodicity raises ValueError.
+    This ensures the Habit class validates periodicity inputs during installation.
+    
+    """
     with pytest.raises(ValueError):
         Habit("Invalid", "yearly")
 
