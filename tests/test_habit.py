@@ -46,14 +46,16 @@ def test_create_habit(daily_habit):
 def test_invalid_periodicity():
     """This tests that iniatilizing a Habit with an invalid periodicity raises ValueError.
     This ensures the Habit class validates periodicity inputs during installation.
-    
     """
     with pytest.raises(ValueError):
         Habit("Invalid", "yearly")
 
 #  Task Completion
 def test_complete_task(daily_habit):
-    """Test marking a habit as completed."""
+    """Test the complete_task method of the habit
+    This verifies that:
+        - Completing a task returns the current date.
+        - The date is added to the habit's _dates set."""
     today = datetime.now().date()
     result = daily_habit.complete_task()
     assert result == today
@@ -61,21 +63,29 @@ def test_complete_task(daily_habit):
 
 #  Streak Logic
 def test_daily_streak():
-    """Test streak calculation for daily completions."""
+    """Test streak calculation for a habit with consecutive daily completions.
+      This stimulates a habit completed for the last 3 consecutive days and
+        checks if the streak is calculated correctly.
+    """
     habit = Habit("Exercise", "daily")
     today = datetime.now().date()
     habit._dates = {today - timedelta(days=i) for i in range(3)}
     assert habit.get_streak() == 3
 
 def test_broken_streak():
-    """Should detect broken daily streak."""
+    """This tests the streak calculation for a habit with a broken completions sequance.
+    It stimulates a habit with completions on two non-consecutive days and checks 
+    if the streak is calculated as 1."""
     habit = Habit("Exercise", "daily")
     today = datetime.now().date()
     habit._dates = {today, today - timedelta(days=2)}
     assert habit.get_streak() == 1
 
 def test_monthly_streak():
-    """Test streak calculation for monthly completions."""
+    """Test streak calculation for monthly completions.
+    This simulates a habit completed on the same day for the last 3 months and
+    checks if the streak is calculated correctly."""
+
     habit = Habit("Pay Rent", "monthly")
     today = datetime.now().date()
     habit._dates = {
@@ -86,19 +96,25 @@ def test_monthly_streak():
     assert habit.get_streak() == 3
 
 def test_streak_with_no_completions():
-    """Should return 0 streak for empty completions list."""
+    """This calculates streaks for habits with no cpmpletions.
+    Should return 0 streak for empty completions list.
+    """
     habit = Habit("Yoga", "weekly")
     assert habit.get_streak() == 0
 
 #  Representation
 def test_str_representation(daily_habit):
-    """Test string representation of habit."""
+    """Test string representation of a Habit object.
+    This verifies that the habit's name and periodicity are included in the string."""
     rep = str(daily_habit)
     assert "Meditate" in rep and "daily" in rep
 
 #  Time Mocking
 def test_complete_task_with_mock_time():
-    """Test completion using a fixed mocked datetime."""
+    """This tests the complete_task method using a mocked datetime.
+    It uses unittest.mock to fix the current time and verities that the completion is 
+    logged with the expected date.
+    """
     fixed_time = datetime(2023, 1, 1, 12, 0)
     fixed_date = fixed_time.date()
 
