@@ -169,6 +169,36 @@ Available commands:
         for h in habits:
             print(f"– {h.name} ({h.periodicity}) ➝ Streak: {h.get_streak()}")
 
+    def handle_analytics(self) -> None:
+        """
+        Display analytics such as current streaks and longest streaks for all habits.
+        """
+        from habit.habit import analytics
+
+        if not self.tracker.habits:
+            print("📭 No habits to analyze.")
+            return
+        print("?\n📊 Analytics Report")
+
+        # Longest streak overall
+        longest_habit = analytics.get_habit_with_longest_streak(self.tracker.habits)
+        if longest_habit:
+            print(f"🏆 Longest streak overall: {longest_habit[0]} ({longest_habit[1]} days)")
+        else:
+            print("⚠️ No streak data found.")
+
+        # Longest streak per habit
+        print("\n🔥 Streaks per habit:")
+        for h in self.tracker.habits:
+            print(f" - {h.name}: {analytics.longest_streak_for(h)}")
+
+        # Habits by periodicity
+        print("\n📅 Habits by periodicity:")
+        for period in ["daily", "weekly", "monthly"]:
+            filtered = analytics.filter_habits_by_periodicity(self.tracker.habits, period)
+            if filtered:
+                print(f" {period.capitalize()}: {[h.name for h in filtered]}")
+
     def handle_command(self, cmd: str, habit_name: Optional[str] = None, periodicity: Optional[str] = None) -> None:
         """
         Dispatch a command to the appropriate handler.
