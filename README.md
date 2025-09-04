@@ -6,7 +6,7 @@ This project was developed as part of the IU course: DLBDSOOFPP01 – Object-Ori
 
 🚀 Features
 
-Create and manage habits with defined periodicity (daily or weekly)
+Create and manage habits with defined periodicity (daily,weekly or monthly)
 
 Mark habits as completed
 
@@ -37,55 +37,86 @@ Pytest Unit testing framework
 
 📁 Project Structure
 habit-tracker/
-├── cli.py # Entry point for the app
-├── habit.py # Habit class (OOP)
-├── tracker.py # HabitTracker class (OOP)
-├── analytics.py # Functional analytics
-├── database.py # SQLite storage
-├── tests/  
-│ └── test_habit.py # Unit tests
-├── requirements.txt # Dependencies
-└── README.md # You're here!
+├── habit/
+│ ├── **init**.py
+│ ├── habit.py # Habit class (OOP)
+│ ├── analytics.py # Functional analytics
+│ ├── database.py # SQLite storage
+│ ├── habit_tracker.py # HabitTracker class
+│ ├── app_controller.py # CLI controller
+│ └── cli.py # Entry point
+├── tests/
+│ ├── test_habit.py
+│ ├── test_analytics.py
+│ ├── test_habit_tracker.py
+│ ├── test_database.py
+│ ├── test_app_controller.py
+│ └── test_cli.py
+├── requirements.txt
+└── README.md
 
+🗃️ Predefined Habits
+
+The app includes 5 predefined habits with 4 weeks of example tracking data:
+
+1. **Exercise** (daily) - 30 minutes of physical activity
+2. **Read** (daily) - Read 10 pages
+3. **Meditate** (weekly) - 15 minutes of meditation
+4. **Journal** (weekly) - Write journal entry
+5. **Budget** (monthly) - Review monthly expenses
+
+To initialize the database with these habits and sample data, run:
+
+bash
+
+python initialize_db.py
 📦 Installation
 
-Clone the repository
+1. Clone the repository
 
-git clone https://github.com/Tinachint/pythonhabit.git
-cd pythonhabit
+   bash
 
-Create a virtual environment
+   git clone https://github.com/Tinachint/pythonhabit.git
+   cd pythonhabit
 
-python -m venv venv
-source venv/bin/activate # On Windows: venv\Scripts\activate
+2. Create a virtual environment
 
-Install dependencies
+   bash
 
-pip install -r requirements.txt
+   python -m venv venv
+   source venv/bin/activate # On Windows: venv\Scripts\activate
+
+3. Install dependencies
+
+   bash
+   pip install pytest python-dateutil
 
 ▶️ Running the App
 
-Start the interactive habit tracker with the following command:
+    Start the interactive habit tracker with the following command:
 
-python cli.py
+    bash
+    python -m habit.cli
 
 Example Commands
 
+bash
+
 # Add a new daily habit
 
-python cli.py add --habit "Read" --periodicity daily
+python -m habit.cli --command add --habit "Read" --periodicity daily
 
 # List all habits
 
-python cli.py list
+python -m habit.cli --command list
 
 # Mark a habit as complete
 
-python cli.py complete --habit "Read"
+python -m habit.cli --command complete --habit "Read"
 
 # View analytics
 
-python cli.py analytics
+python -m habit.cli --command analytics
 
 🔍 Analytics Module
 
@@ -101,7 +132,7 @@ These insights are calculated with pure functions for reliability and clarity.
 
 🧪 Testing
 
-Run unit tests with:
+bash
 
 pytest
 
@@ -117,13 +148,24 @@ Functional Tests: The pure functions in the analytics module.
 
 Integration Tests: Data persistence and retrieval from the SQLite database.
 
-🗃️ Predefined Habits
-
-The app includes 5 predefined habits (daily and weekly) with 4 weeks of example tracking data. You can easily add new habits via the CLI.
+CLI interface tests
 
 🔐 Data Storage
 
 Habit data is stored securely using SQLite, ensuring persistence across sessions.
+
+🔌 API Interface
+
+The application provides a clean CLI API:
+
+- add: Create a new habit
+- complete: Mark a habit as completed
+- update: Modify habit properties
+- delete`: Remove a habit
+- list: View all habits
+- analytics: Show habit insights
+
+All commands support both interactive and direct invocation.
 
 📚 Documentation
 

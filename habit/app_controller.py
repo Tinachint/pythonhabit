@@ -38,6 +38,8 @@ class AppController:
                 self.handle_delete()
             elif cmd == "list":
                 self.handle_list()
+            elif cmd == "analytics":
+                self.handle_analytics()
             elif cmd == "exit":
                 print("👋 Goodbye!")
                 break
@@ -174,17 +176,17 @@ Available commands:
         """
         Display analytics such as current streaks and longest streaks for all habits.
         """
-        from habit.habit import analytics
+        from habit import analytics
 
         if not self.tracker.habits:
             print("📭 No habits to analyze.")
             return
-        print("?\n📊 Analytics Report")
+        print("\n📊 Analytics Report")
 
         # Longest streak overall
         longest_habit = analytics.get_habit_with_longest_streak(self.tracker.habits)
         if longest_habit:
-            print(f"🏆 Longest streak overall: {longest_habit[0]} ({longest_habit[1]} days)")
+            print(f"🏆 Longest streak overall: {longest_habit[0]} ({longest_habit[1]} period)")
         else:
             print("⚠️ No streak data found.")
 
