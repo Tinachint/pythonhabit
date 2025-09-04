@@ -53,6 +53,7 @@ Available commands:
 • add       – Create a new habit
 • complete  – Mark a habit as completed today
 • update    – Change periodicity of a habit
+• analytics – Show habit analytics
 • delete    – Remove a habit
 • list      – View all tracked habits
 • help      – Show this help menu
@@ -218,6 +219,8 @@ Available commands:
             self.handle_complete(habit_name)
         elif cmd == "update":
             self.handle_update(habit_name, periodicity)
+        elif cmd == "analytics":
+            self.handle_analytics()
         elif cmd == "delete":
             self.handle_delete(habit_name)
         elif cmd == "list":
