@@ -34,7 +34,10 @@ def parse_args():
     return parser.parse_args()
 
 def main():
-    """Main entry point for the CLI application."""
+    """Main entry point for the CLI application.
+    Parses arguments, initializes the controller, and dispatches commands.
+    
+    """
     args = parse_args()
     controller = AppController()
 

@@ -13,7 +13,6 @@ class AppController:
         Initialize the controller with a HabitTracker instance.
 
         Parameters:
-        -----------
         db_path : str
             Path to the database file for storing habits.
         """
@@ -22,6 +21,7 @@ class AppController:
     def start(self) -> None:
         """
         Launch the interactive CLI loop for user commands.
+
         """
         print("📊 Habit Tracker App (type 'help' for options)")
         while True:
@@ -107,7 +107,7 @@ Available commands:
         Update the periodicity of an existing habit.
 
         Parameters:
-        -----------
+        
         name : Optional[str]
             Name of the habit to update. If not provided, prompts the user.
         new_periodicity : Optional[str]
@@ -137,7 +137,7 @@ Available commands:
         Delete a habit from the tracker.
 
         Parameters:
-        -----------
+        
         name : Optional[str]
             Name of the habit to delete. If not provided, prompts the user.
         """
@@ -153,7 +153,7 @@ Available commands:
         List all tracked habits, optionally filtered by periodicity.
 
         Parameters:
-        -----------
+   
         periodicity : Optional[str]
             Filter habits by frequency (daily/weekly/monthly).
         """
@@ -174,7 +174,7 @@ Available commands:
         Dispatch a command to the appropriate handler.
 
         Parameters:
-        -----------
+       
         cmd : str
             The command to execute (e.g., 'add', 'list', 'complete').
         habit_name : Optional[str]

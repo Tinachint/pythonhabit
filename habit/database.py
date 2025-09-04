@@ -7,10 +7,21 @@ from datetime import datetime
 
 class DatabaseManager:
     """
-    Handles SQLite-based persistence for habits.
+    Manages SQLite database interactions for storing and retrieving habits.
+
+    Handles all persistence operations including creating the database schema,
+    saving, loading, updating, and deleting habits. Maintains a single database
+    connection for efficiency.
+
     """
 
     def __init__(self, db_name: str = "habits.db"):
+        """
+        Initialize the DatabaseManager with a database name.
+        
+        Args:
+            db_name: Name of the SQLite database file (default: habits.db)
+        """
         self.db_name = db_name
         self._conn = None  # Track the connection
 
@@ -23,6 +34,9 @@ class DatabaseManager:
     def initialize_schema(self) -> None:
         """
         Creates the habits table if it doesn't exist.
+        
+        Creates a 'habits' table with columns for name, periodicity,
+        creation date, and completions (stored as JSON).
         """
         with self._connect() as conn:
             cursor = conn.cursor()
