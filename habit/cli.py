@@ -11,13 +11,14 @@ except Exception:
 COMMAND_ALIASES = {
     "ls": "list",
     "rm": "delete",
-    "done": "complete"
+    "done": "complete",
+    "stats": "analytics"
 }
 """Maps shorthand command aliases to their full command equivalents.
 Used to support user-friendly CLI input.
 """
 SUPPORTED_COMMANDS = {
-    "add", "list", "complete", "update", "help", "exit"
+    "add", "list", "complete", "update", "help", "exit", "delete", "analytics"
 } | set(COMMAND_ALIASES.keys())
 """
 Set of all valid commands, including both full names and aliases.

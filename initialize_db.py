@@ -4,6 +4,8 @@ Database initialization script for habit tracker.
 Creates 5 predefined habits with 4 weeks of sample data.
 
 This script should be run once to initialize the database with sample data.
+It will create a fresh SQLite database with the required predefined habits
+and completion data as specified in the assignment requirements.
 """
 
 import sys
@@ -17,40 +19,50 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from habit.database import DatabaseManager
 from habit.habit import Habit
 
+
 def create_sample_data():
-    """Create sample habits with 4 weeks of completion data."""
+    """
+    Create sample habits with 4 weeks of completion data.
+    
+    This function:
+    1. Creates a fresh SQLite database
+    2. Defines 5 habits with different periodicities
+    3. Adds realistic completion data for the past 4 weeks
+    4. Saves all habits to the database
+    5. Provides feedback on the created data
+    
+    Returns:
+        None
+    """
     print("Initializing database with sample data...")
+    
+    # Remove existing database to start fresh
+    if os.path.exists("habits.db"):
+        os.remove("habits.db")
+        print("Removed existing database file.")
     
     # Initialize database
     db = DatabaseManager("habits.db")
     db.initialize_schema()
     
-    # Clear any existing data
-    db.close()
-    os.remove("habits.db") if os.path.exists("habits.db") else None
-    db = DatabaseManager("habits.db")
-    db.initialize_schema()
-    
-    habits = []
-    
-    # Create the 5 predefined habits
-    exercise = Habit("Exercise", "daily")
-    read = Habit("Read", "daily")
-    meditate = Habit("Meditate", "weekly")
-    journal = Habit("Journal", "weekly")
-    budget = Habit("Budget", "monthly")
-    
-    habits = [exercise, read, meditate, journal, budget]
+    # Create the 5 predefined habits with different periodicities
+    habits = [
+        Habit("Exercise", "daily"),
+        Habit("Read", "daily"),
+        Habit("Meditate", "weekly"),
+        Habit("Journal", "weekly"),
+        Habit("Budget", "monthly")
+    ]
     
     # Add completion data for the last 4 weeks
     today = date.today()
     
     for habit in habits:
         if habit.periodicity == "daily":
-            # Add completions for the last 28 days (with some realistic gaps)
+            # Add completions for the last 28 days (with realistic gaps)
             for i in range(28):
-                # Skip some days to make it realistic (not every single day)
-                if i % 7 != 0:  # Skip one day per week
+                # Skip one day per week to make it realistic
+                if i % 7 != 0:
                     completion_date = today - timedelta(days=i)
                     habit._dates.add(completion_date)
         
@@ -58,7 +70,7 @@ def create_sample_data():
             # Add completions for the last 4 weeks
             for i in range(4):
                 completion_date = today - timedelta(weeks=i)
-                # Add some variation (not exactly every 7 days)
+                # Add slight variation to weekly dates
                 if i > 0:
                     completion_date = completion_date - timedelta(days=1 if i % 2 == 0 else 0)
                 habit._dates.add(completion_date)
@@ -80,5 +92,15 @@ def create_sample_data():
         print(f"  - {habit.name} ({habit.periodicity}): {len(habit._dates)} completions")
     print("\nYou can now run the application with: python -m habit.cli")
 
+
 if __name__ == "__main__":
+    """
+    Main execution point for the initialization script.
+    
+    When run directly, this script will:
+    1. Create a new SQLite database file (habits.db)
+    2. Populate it with 5 predefined habits
+    3. Add 4 weeks of sample completion data
+    4. Print a summary of the created data
+    """
     create_sample_data()
