@@ -2,10 +2,7 @@
 """
 Database initialization script for habit tracker.
 Creates 5 predefined habits with 4 weeks of sample data.
-
 This script should be run once to initialize the database with sample data.
-It will create a fresh SQLite database with the required predefined habits
-and completion data as specified in the assignment requirements.
 """
 
 import sys
